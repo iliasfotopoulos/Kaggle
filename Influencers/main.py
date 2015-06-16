@@ -2,15 +2,17 @@ from sklearn import linear_model
 from sklearn import metrics
 import numpy as np
 import load_data
+import preprocess as pre
 
 X_train_A, X_train_B, y_train = load_data.load("train")
 X_test_A, X_test_B = load_data.load("test")
 
 #Preprocess
+'''
 def transform_features(x):
 	return np.log(1+x)
-
-X_train = transform_features(X_train_A) - transform_features(X_train_B)
+'''
+X_train = pre.proc(X_train_A) - pre.proc(X_train_B)
 
 model = linear_model.LogisticRegression(fit_intercept=False)
 model.fit(X_train,y_train)
@@ -25,7 +27,7 @@ print 'AuC score on training data:',auc
 ###########################
 # PREDICTING ON TEST DATA
 ###########################
-X_test = transform_features(X_test_A) - transform_features(X_test_B)
+X_test = pre.proc(X_test_A) - pre.proc(X_test_B)
 preds_test = model.predict_proba(X_test)[:,1]
 
 ###########################
