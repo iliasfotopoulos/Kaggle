@@ -34,9 +34,18 @@ def common_name(A,B):
 def log(X):
 	return X.apply(np.log1p)
 
+def retweet_ratio(X):
+	X.ix[:,'posts'].replace(0,1,inplace=True)
+	X["retweet_ratio"] = ( X.ix[:,'retweets_received'] / X.ix[:,'posts'] ) * 1.5
+	return X
+
 def follow_ratio(X):
-	X["ratio"] = (X.ix[:,0] / (X.ix[:,1] +1) )
+	X.ix[:,1].replace(0,1,inplace=True)
+	X["follow_ratio"] = (X.ix[:,0] / X.ix[:,1] ) *0.1
 	return X
 
 def proc(X):
-	return log(follow_ratio(X))
+	#Add new features
+	X = follow_ratio(X)
+	X = retweet_ratio(X)
+	return log(X)
