@@ -44,6 +44,13 @@ def follow_ratio(X):
 	X["follow_ratio"] = (X.ix[:,0] / X.ix[:,1] ) *0.1
 	return X
 
+def follow_dif(X):
+	X["follow_dif"] = (X.ix[:,'follower_count'] - X.ix[:,'following_count'])	
+	X["follow_dif"].replace(0,1,inplace=True)
+	#X.drop('follower_count', axis=1, inplace=True)
+	#X.drop('following_count', axis=1, inplace=True)
+	return X
+
 def proc(X):
 	#Add new features
 	X = follow_ratio(X)

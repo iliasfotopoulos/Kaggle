@@ -13,7 +13,7 @@ X_train_A, X_train_B = pre.common_name(X_train_A,X_train_B)
 X_train = pre.proc(X_train_A) - pre.proc(X_train_B)
 
 model = linear_model.LogisticRegression(fit_intercept=False)
-#params = {'n_estimators':200, 'learning_rate':0.1,'max_depth':3, 'random_state':0}
+#params = {'n_estimators':200, 'learning_rate':0.01,'max_depth':3, 'random_state':0}
 #model = GradientBoostingClassifier(**params)
 model.fit(X_train,y_train['Choice'])
 
@@ -21,7 +21,6 @@ preds = model.predict_proba(X_train)[:,1]
 fpr, tpr, thresholds = metrics.roc_curve(y_train, preds)
 auc = metrics.auc(fpr,tpr)
 
-#print 'AuC score on training data:',metrics.roc_auc_score(y_train,preds.T)
 print 'AuC score on training data:',auc
 
 ###########################
